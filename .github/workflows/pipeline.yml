@@ -31,5 +31,16 @@ jobs:
           start: npm run start-prod
           wait-on: http://localhost:5000
       - name: test deployment
+        # https://github.com/orgs/community/discussions/26724
         if: ${{ github.event_name == 'push' }}
         run: echo "test deployment... nothing is actually deployed"
+  tag_release:
+    needs: [simple_deployment_pipeline]
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Bump version and push tag
+        if: ${{ github.event_name == 'push' }}
+        uses: anothrNick/github-tag-action@1.67.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DEFAULT_BUMP: patch
