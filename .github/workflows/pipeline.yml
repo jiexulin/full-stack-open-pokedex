@@ -30,3 +30,6 @@ jobs:
           command: npm run test:e2e
           start: npm run start-prod
           wait-on: http://localhost:5000
+      - name: test deployment
+        if: ${{ github.event_name == 'push' }}
+        run: echo "test deployment... nothing is actually deployed"
